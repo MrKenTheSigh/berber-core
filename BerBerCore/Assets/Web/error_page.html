@@ -1,0 +1,100 @@
+﻿
+<html>
+	<head>
+		<title></title>
+
+		<script type="text/javascript">
+			var url_to_retry = "about:blank";
+
+			function setUrl(url){
+				url_to_retry = url;
+			}
+
+			function retry(){
+				window.location.href = url_to_retry;
+			}
+
+		</script>
+
+		<script type="text/javascript">
+	        window.onload = function () {
+	            var viewportW = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+	            var viewportH = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+	            var textbtn = setupDivText(
+	                document.body, "textbtn",
+	                0, viewportH * .45, viewportW, viewportH / 2,
+	                "#007aff", "x-large", "center", 
+	                "連線失敗, 點此重試", false, false
+	            );
+	            textbtn.onclick = retry;
+	        }
+
+	        //從舊版的BasicUI提取出來, 有些地方似乎運作的不如預期
+	        function setupDivText(parentEle, id, x, y, w, h, fontColor, fontSize, textAlign, txt, bold, isFixed) {
+	            //NOTE: 目前新增後就無法修改Bold
+	            bold = (typeof bold === "undefined") ? false : bold;
+	            isFixed = (typeof isFixed === "undefined") ? false : isFixed;
+	            var position = "absolute";
+	            if (isFixed) position = "fixed";
+
+	            var isNew = false;
+	            var temp = document.getElementById(id);
+
+	            if (temp == null) {
+	                temp = document.createElement('div');
+	                temp.id = id;
+	                isNew = true;
+
+	                if (bold) {
+	                    var b = document.createElement("b");
+	                    temp.appendChild(b);
+	                    b.appendChild(document.createTextNode(txt));
+	                } else {
+	                    temp.appendChild(document.createTextNode(txt));
+	                }
+
+	            }
+
+	            temp.style.left = x + "px";
+	            temp.style.top = y + "px";
+	            temp.style.width = w + "px";
+	            temp.style.height = h + "px";
+	            //temp.style.fontColor = fontColor;
+	            temp.style.color = fontColor;
+	            temp.style.fontSize = fontSize;
+	            temp.style.textAlign = textAlign;
+	            temp.style.position = position;
+
+	            if (isNew) {
+	                parentEle.appendChild(temp);
+	            } else {
+	                if (_getText(temp) != txt) {
+	                    _setText(temp, txt)
+	                }
+	            }
+
+	            return temp;
+	        }
+	        function setText(id, val) {
+	            var div = document.getElementById(id);
+	            if (div) {
+	                if (_getText(div) != val) {
+	                    _setText(div, val)
+	                }
+	            }
+	        }
+	        function _getText(obj) {
+	            return obj.textContent ? obj.textContent : obj.innerText;
+	        }
+	        function _setText(obj, to) {
+	            obj.textContent ? obj.textContent = to : obj.innerText = to;
+	        }
+
+    	</script>
+
+	</head>
+	<body>
+
+
+	</body>
+</html>

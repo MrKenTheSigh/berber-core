@@ -1,0 +1,65 @@
+﻿
+<html>
+	<head>
+		<title></title>
+
+		<meta name="viewport" content="width=1280, user-scalable=no">
+
+		<script type="text/javascript">
+			
+			var testObj = {
+				get echo(){
+					return value;
+				},
+				set echo(x){
+					value = x;
+					alert("recv:" + x);
+					if(x.width){
+						alert("recv:" + x.width + "," + x.height);
+					}
+				}
+			};
+
+			function yo(){
+				window.location.href = "berber:yo";
+			}
+
+			//
+			function backBtn(val){
+				window.location.href = "TD888:BackBtn:" + val;
+			}
+
+			//window.location.href = "TD888:ServicePush:0;;NotiNoti;;http://www.google.com";
+
+			function sPush_0(){
+				window.location.href = "TD888:ServicePush/stop";
+
+			}
+			function sPush_1(){
+				window.location.href = "TD888:ServicePush/file:///android_asset/Web/index.html";//http://www.google.com";
+
+			}
+
+
+			//<iframe id="cmd" src="about:blank" />
+		</script>
+
+	</head>
+	<body>
+
+		<input type="text" style="width:50%">
+		<br/>
+		<input type="text" style="width:50%">
+		<br/>
+		<input type="button" value="test" style="width:100%" onclick="test()">
+	    <br/>
+		<input type="button" onclick="yo()" value="yo" />
+		<br/>
+		<input type="button" onclick="backBtn(0)" value="backBtn_0" />
+		<input type="button" onclick="backBtn(1)" value="backBtn_1" />
+		<input type="button" onclick="backBtn('alert(123)')" value="backBtn_a" />
+		<input type="button" onclick="sPush_0()" value="sPush0" />
+		<input type="button" onclick="sPush_1()" value="sPush1" />
+
+	</body>
+</html>

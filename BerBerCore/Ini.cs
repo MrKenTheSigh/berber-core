@@ -4,34 +4,27 @@ using System.Collections.Generic;
 
 namespace BerBerCore
 {
-
+	
 	public class Ini
 	{
-		public const bool DevMode = true;//控制帳號鈕開出測試頁, 及 GF.devLog() 是否印出. 發佈時必須是 false.
+		public const bool DevMode = true;
+
 		public const int WebViewTimeoutMS = 10000;
 		public const int WebViewTimeoutRetry = 3;
 
-		#region == 鈦合 ==
+		//
+		public const string URL_MAIN = "file:///android_asset/Web/index.html";//"https://wsapi.berberui.rocks/demo/ppplayer/index.html";//
+		public const string URL_ERR = "file:///android_asset/Web/error_page.html";
+		public const string URL_BLANK = "about:blank";
 
-		///*
-		public const string URL_Pub = "https://eclipse.td888.net:1443";//"http://eclipse.td888.net";
-		public const string URL_Dev = "http://eclipse.dev.mts.idv.tw";
-		public const string URL_Dev_ssl = "https://eclipse.dev.mts.idv.tw";
-		public const string DefaultPathOrQuery = "/MobileApp/";
-		//DefaultPathOrQuery NOTE: 開頭必須有 /
-		//DefaultPathOrQuery NOTE: 若只是Path, 結尾必須有 /
+		public const string CMD_PRFIX = "berber:";
 
-
-		public const int Rotate = 90;
-		public const int ScreenSaver = 0;
-		public const int FullScreen = 2;//1;//
-		public const int ShowTitle = 1;//0;//
-		public const bool PCView = false;
-		public const bool Scalable = false;
-
+		//
 		public const bool ShowLaunchScreen = false;
 		public const int LaunchScreenTime_MS = 5000;
 
+
+		//
 		public const string GCM_SENDER_ID = "310769733638";//AIzaSyAbwC3z2pJcT5lUzuRPhayaKLo1xIkCyD4(api key)
 		#region = Notification =
 		public static string PackageName = string.Empty;
@@ -55,9 +48,6 @@ namespace BerBerCore
 			{NotiIdList[1], Android.Media.RingtoneManager.GetDefaultUri(Android.Media.RingtoneType.Notification)},//Android.Net.Uri.Parse ("android.resource://" + PackageName + "/" + Resource.Raw.coins_drop_1.ToString())},
 			{NotiIdList[2], Android.Media.RingtoneManager.GetDefaultUri(Android.Media.RingtoneType.Notification)}
 		};
-		#endregion
-
-		//*/
 		#endregion
 
 

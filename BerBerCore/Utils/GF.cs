@@ -12,17 +12,6 @@ namespace BerBerCore
 {
 	public class GF
 	{
-		public static string URL_Now = Ini.URL_Pub;
-		public static string PageDefault{
-			get{ return URL_Now + Ini.DefaultPathOrQuery; }
-			set{ URL_Now = value; }
-		}
-
-		public const string PAGE_BLANK = "about:blank";
-		public const string LOCAL_PAGE_ERR = "file:///android_asset/Web/error_page.html";
-
-		public const int LOCATION_UPDATE_PERIOD = 5000; //ms
-
 		#region 未重製, 加密及通知相關
 		public const string IV = "81feaa24";
 
@@ -41,7 +30,7 @@ namespace BerBerCore
 
 		public static void devLog(string msg){
 			if (Ini.DevMode) {
-				Console.WriteLine ("[TD888] " + msg);
+				Console.WriteLine ("[BerBerCore] " + msg);
 			}
 		}
 

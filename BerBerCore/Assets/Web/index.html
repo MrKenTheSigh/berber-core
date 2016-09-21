@@ -7,23 +7,40 @@
 
 		<script type="text/javascript">
 			
-			var testObj = {
-				get echo(){
-					return value;
-				},
-				set echo(x){
-					value = x;
-					alert("recv:" + x);
-					if(x.width){
-						alert("recv:" + x.width + "," + x.height);
-					}
-				}
-			};
-
 			function yo(){
-				window.location.href = "berber:yo";
+				var cmd = {
+					method: "yo"
+				};
+				window.location.href = "berber:" + JSON.stringify(cmd);
 			}
 
+			function yoWithData() {
+				var cmd = {
+					method: "yo2",
+					data: {
+						name: "aaa",
+						phone: "1234"
+					}
+				};
+				window.location.href = "berber:" + JSON.stringify(cmd);
+			}
+
+			function startService() {
+				var cmd = {
+					method: "startService"
+				};
+				window.location.href = "berber:" + JSON.stringify(cmd);
+			}
+
+			function stopService() {
+				var cmd = {
+					method: "stopService"
+				};
+				window.location.href = "berber:" + JSON.stringify(cmd);
+			}
+
+			
+			/*
 			//
 			function backBtn(val){
 				window.location.href = "TD888:BackBtn:" + val;
@@ -39,9 +56,19 @@
 				window.location.href = "TD888:ServicePush/file:///android_asset/Web/index.html";//http://www.google.com";
 
 			}
-
+			*/
 
 			//<iframe id="cmd" src="about:blank" />
+
+
+			/*
+			setInterval(function() {
+				console.log("yooooooo");
+			}, 1000);
+			*/
+
+
+			
 		</script>
 
 	</head>
@@ -54,12 +81,18 @@
 		<input type="button" value="test" style="width:100%" onclick="test()">
 	    <br/>
 		<input type="button" onclick="yo()" value="yo" />
+		<input type="button" onclick="yoWithData()" value="yoWithData" />
+		<input type="button" onclick="startService()" value="startService" />
+		<input type="button" onclick="stopService()" value="stopService" />
 		<br/>
+
+		<!--
 		<input type="button" onclick="backBtn(0)" value="backBtn_0" />
 		<input type="button" onclick="backBtn(1)" value="backBtn_1" />
 		<input type="button" onclick="backBtn('alert(123)')" value="backBtn_a" />
 		<input type="button" onclick="sPush_0()" value="sPush0" />
 		<input type="button" onclick="sPush_1()" value="sPush1" />
+		-->
 
 	</body>
 </html>

@@ -26,6 +26,7 @@ namespace BerBerCore
 		
 		public static void UpdateIdValues()
 		{
+			global::Gcm.Client.Resource.String.library_name = global::BerBerCore.Resource.String.library_name;
 		}
 		
 		public partial class Animation
@@ -799,10 +800,13 @@ namespace BerBerCore
 			public const int abc_textfield_searchview_right_holo_light = 2130837590;
 			
 			// aapt resource value: 0x7f020057
-			public const int splash = 2130837591;
+			public const int Icon = 2130837591;
 			
 			// aapt resource value: 0x7f020058
-			public const int splash_background = 2130837592;
+			public const int splash = 2130837592;
+			
+			// aapt resource value: 0x7f020059
+			public const int splash_background = 2130837593;
 			
 			static Drawable()
 			{
@@ -1175,29 +1179,32 @@ namespace BerBerCore
 			// aapt resource value: 0x7f0b000b
 			public const int abc_shareactionprovider_share_with_application = 2131427339;
 			
-			// aapt resource value: 0x7f0b000d
-			public const int app_name = 2131427341;
-			
-			// aapt resource value: 0x7f0b000f
-			public const int cancel = 2131427343;
-			
-			// aapt resource value: 0x7f0b0011
-			public const int delete = 2131427345;
+			// aapt resource value: 0x7f0b000e
+			public const int app_name = 2131427342;
 			
 			// aapt resource value: 0x7f0b0010
-			public const int edit = 2131427344;
+			public const int cancel = 2131427344;
 			
 			// aapt resource value: 0x7f0b0012
-			public const int error = 2131427346;
+			public const int delete = 2131427346;
+			
+			// aapt resource value: 0x7f0b0011
+			public const int edit = 2131427345;
 			
 			// aapt resource value: 0x7f0b0013
-			public const int login = 2131427347;
+			public const int error = 2131427347;
+			
+			// aapt resource value: 0x7f0b000d
+			public const int library_name = 2131427341;
 			
 			// aapt resource value: 0x7f0b0014
-			public const int logout = 2131427348;
+			public const int login = 2131427348;
 			
-			// aapt resource value: 0x7f0b000e
-			public const int ok = 2131427342;
+			// aapt resource value: 0x7f0b0015
+			public const int logout = 2131427349;
+			
+			// aapt resource value: 0x7f0b000f
+			public const int ok = 2131427343;
 			
 			static String()
 			{

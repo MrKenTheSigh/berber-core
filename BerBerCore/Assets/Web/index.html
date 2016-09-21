@@ -39,6 +39,17 @@
 				window.location.href = "berber:" + JSON.stringify(cmd);
 			}
 
+			function notification() {
+				var cmd = {
+					method: "notification",
+					data: {
+						title: "aaa",
+						content: "1234"
+					}
+				};
+				window.location.href = "berber:" + JSON.stringify(cmd);
+			}
+			
 			
 			/*
 			//
@@ -48,15 +59,7 @@
 
 			//window.location.href = "TD888:ServicePush:0;;NotiNoti;;http://www.google.com";
 
-			function sPush_0(){
-				window.location.href = "TD888:ServicePush/stop";
-
-			}
-			function sPush_1(){
-				window.location.href = "TD888:ServicePush/file:///android_asset/Web/index.html";//http://www.google.com";
-
-			}
-			*/
+	
 
 			//<iframe id="cmd" src="about:blank" />
 
@@ -84,6 +87,7 @@
 		<input type="button" onclick="yoWithData()" value="yoWithData" />
 		<input type="button" onclick="startService()" value="startService" />
 		<input type="button" onclick="stopService()" value="stopService" />
+		<input type="button" onclick="notification()" value="notification" />
 		<br/>
 
 		<!--

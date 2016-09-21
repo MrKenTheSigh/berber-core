@@ -154,6 +154,15 @@ namespace BerBerCore
 
 			GF.devLog ("Resume");
 
+
+			if (Intent.Extras != null) {
+				var msg = Intent.Extras.GetString ("msg_from_noti", string.Empty);
+				GF.devLog ("[OnResume] extra: " + msg);
+			} else { 
+				GF.devLog ("[OnResume] no extras");
+			}
+
+
 				#region == Service for NO_GCM ==
 				//UNDONE 不支援GCM的設備, 須主動項server更新資訊. 待重製
 				/*

@@ -11,10 +11,10 @@ using Android.Views;
 using Android.Widget;
 using Android.Support.V4.App;
 using Android.Media;
-
 using Android.Webkit;
-using Newtonsoft.Json;
 
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using WebSocket4Net;
 
 
@@ -68,26 +68,84 @@ namespace BerBerCore
 			return null;
 		} 
 
-		private void updateNotification(int num, string msg, int notificationID)
+		#region websocket
+		private void websocket_Opened (object sender, EventArgs e)
+		{
+			GF.devLog ("[WS][opened]");
+
+			var t = new Thread (() => {
+				for (int i = 0; i < 10; i++) {
+					webSocket.Send ("Hello World! [" + i + "]");
+					Thread.Sleep (10000);
+				}
+				//StopSelf ();
+
+			});
+			t.Start ();
+
+
+		}
+		private void websocket_Error (object sender, SuperSocket.ClientEngine.ErrorEventArgs e)
+		{
+			GF.devLog ("[WS][err]");
+
+			//TODO 取得 error code, 處理重新連線
+			//TODO 通知
+
+		}
+		private void websocket_Closed (object sender, EventArgs e)
+		{
+			GF.devLog ("[WS][closed]");
+		}
+		private void websocket_MessageReceived (object sender, MessageReceivedEventArgs e)
+		{
+			var msg = e.Message;
+			GF.devLog ("[WS][msg] " + msg);
+
+			//TODO 用以下方式轉換資料
+			//JObject restoredObject = JsonConvert.DeserializeObject<JObject> (msg);
+
+			//GF.devLog ("[method] " + restoredObject ["method"]);
+			//switch (restoredObject ["method"].ToString ()) {
+			//	case "yo":
+			//		GF.devLog ("[data] N/A");
+			//		break;
+
+			//	case "yo2":
+			//		GF.devLog ("[data] " + restoredObject ["data"]);
+			//		GF.devLog ("[data.name] " + restoredObject ["data"] ["name"]);
+			//		GF.devLog ("[data.phone] " + restoredObject ["data"] ["phone"]);
+			//		break;
+					
+
+			//}
+
+
+
+
+		}
+		#endregion
+
+		private void updateNotification (int num, string msg, int notificationID)
 		{
 			if (KUserDefault.MsgID == 0) {
 				return;
 			}
 
 			// These are the values that we want to pass to the next activity
-			Bundle valuesForActivity = new Bundle();
-			valuesForActivity.PutInt(GF.CALL_FROM_NOTI_TYPE, notificationID);
+			Bundle valuesForActivity = new Bundle ();
+			valuesForActivity.PutInt (GF.CALL_FROM_NOTI_TYPE, notificationID);
 
 			// Create the PendingIntent with the back stack
 			// When the user clicks the notification, SecondActivity will start up.
-			Intent resultIntent = new Intent(this, typeof(MainActivity));
-			resultIntent.PutExtras(valuesForActivity); // Pass some values to SecondActivity.
+			Intent resultIntent = new Intent (this, typeof (MainActivity));
+			resultIntent.PutExtras (valuesForActivity); // Pass some values to SecondActivity.
 
-			Android.Support.V4.App.TaskStackBuilder stackBuilder = Android.Support.V4.App.TaskStackBuilder.Create(this);
-			stackBuilder.AddParentStack(Java.Lang.Class.FromType(typeof(MainActivity)));
-			stackBuilder.AddNextIntent(resultIntent);
+			Android.Support.V4.App.TaskStackBuilder stackBuilder = Android.Support.V4.App.TaskStackBuilder.Create (this);
+			stackBuilder.AddParentStack (Java.Lang.Class.FromType (typeof (MainActivity)));
+			stackBuilder.AddNextIntent (resultIntent);
 
-			PendingIntent resultPendingIntent = stackBuilder.GetPendingIntent(0, (int)PendingIntentFlags.UpdateCurrent);
+			PendingIntent resultPendingIntent = stackBuilder.GetPendingIntent (0, (int)PendingIntentFlags.UpdateCurrent);
 
 			//Android.Net.Uri alarmSound = RingtoneManager.GetDefaultUri(RingtoneType.Notification);
 			Android.Net.Uri alarmSound; //= Android.Net.Uri.Parse ("android.resource://" + PackageName + "/" + Resource.Raw.noti_sound_coin);
@@ -124,62 +182,18 @@ namespace BerBerCore
 			NotificationCompat.Builder builder = new NotificationCompat.Builder (this)
 				.SetAutoCancel (true) // dismiss the notification from the notification area when the user clicks on it
 				.SetContentIntent (resultPendingIntent) // start up this activity when the user clicks the intent.
-				.SetContentTitle (num.ToString() + msgText) // Set the title
-				.SetSmallIcon(Resource.Drawable.Icon) // This is the icon to display
-				.SetSound(alarmSound, 5)
-				.SetContentText(msg.Replace("</br>", " ")); // the message to display.
-				//.SetContentInfo ("info")
-				//.SetNumber(num) // Display the count in the Content Info
+				.SetContentTitle (num.ToString () + msgText) // Set the title
+				.SetSmallIcon (Resource.Drawable.Icon) // This is the icon to display
+				.SetSound (alarmSound, 5)
+				.SetContentText (msg.Replace ("</br>", " ")); // the message to display.
+															  //.SetContentInfo ("info")
+															  //.SetNumber(num) // Display the count in the Content Info
 
 			// Finally publish the notification
-			NotificationManager notificationManager = (NotificationManager)GetSystemService(NotificationService);
-			notificationManager.Notify(notificationID, builder.Build());
+			NotificationManager notificationManager = (NotificationManager)GetSystemService (NotificationService);
+			notificationManager.Notify (notificationID, builder.Build ());
 
 		}
-
-
-		#region websocket
-		private void websocket_Opened (object sender, EventArgs e)
-		{
-			GF.devLog ("[WS][opened]");
-
-			var t = new Thread (() => {
-				//while (true) {
-				//	GF.devLog ("[SERVICE] Service: " + i++ + "  KUserDefault.getMsgID: " + KUserDefault.MsgID);
-				//	Thread.Sleep (10000);
-				//}
-				//StopSelf();
-
-				for (int i = 0; i < 10; i++) {
-					webSocket.Send ("Hello World! [" + i + "]");
-					Thread.Sleep (10000);
-				}
-
-
-			});
-			t.Start ();
-
-
-		}
-		private void websocket_Error (object sender, SuperSocket.ClientEngine.ErrorEventArgs e)
-		{
-			GF.devLog ("[WS][err]");
-
-			//TODO 取得 error code, 處理重新連線
-			//TODO 通知
-
-		}
-		private void websocket_Closed (object sender, EventArgs e)
-		{
-			GF.devLog ("[WS][closed]");
-		}
-		private void websocket_MessageReceived (object sender, MessageReceivedEventArgs e)
-		{
-			var msg = e.Message;
-			GF.devLog ("[WS][msg] " + msg);
-
-		}
-		#endregion
 
 
 	}

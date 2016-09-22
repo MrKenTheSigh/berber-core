@@ -72,12 +72,15 @@ namespace BerBerCore
 		{
 			GF.devLog ("[WS][opened]");
 
+
+			//TODO 把以下測試刪掉. 並在此處加上設備的註冊機制.
+			//註冊機制：APP第一次啟動時存住一組GUID, 同時傳給 server. 未來連線時就直接傳這組GUID.
 			var t = new Thread (() => {
 				for (int i = 0; i < 10; i++) {
 					webSocket.Send ("Hello World! [" + i + "]");
 					Thread.Sleep (10000);
 				}
-				//StopSelf ();
+				StopSelf ();
 
 			});
 			t.Start ();
@@ -122,45 +125,13 @@ namespace BerBerCore
 
 			//TODO 取得資料後用發通知
 			//  是否把 extra 用於 json ?!
-			//updateNotification (title, content, extra);
+			//NotificationToolbox.updateNotification (this, title, content, extra);
 
 
 
 		}
 		#endregion
 
-		public void updateNotification (string title, string content, string extra)
-		{
-			//NOTE ref https://developer.xamarin.com/guides/cross-platform/application_fundamentals/notifications/android/local_notifications_in_android/
-
-			Intent intent = new Intent (this, typeof (MainActivity));
-			intent.PutExtra ("msg_from_noti", extra);
-
-			TaskStackBuilder stackBuilder = TaskStackBuilder.Create (this);
-			stackBuilder.AddParentStack (Java.Lang.Class.FromType (typeof (MainActivity)));
-			stackBuilder.AddNextIntent (intent);
-
-			const int pendingIntentId = 0;
-			PendingIntent pendingIntent =
-				stackBuilder.GetPendingIntent (pendingIntentId, PendingIntentFlags.OneShot);
-
-			Notification.Builder builder = new Notification.Builder (this)
-				.SetContentIntent (pendingIntent)
-				.SetContentTitle (title)
-				.SetContentText (content)
-				//.SetAutoCancel (true) // dismiss the notification from the notification area when the user clicks on it
-				//.SetSound (alarmSound, 5) // 更多聲音控制去參考 diantou
-				.SetSmallIcon (Resource.Drawable.Icon);
-
-			Notification notification = builder.Build ();
-
-			NotificationManager notificationManager =
-				GetSystemService (Context.NotificationService) as NotificationManager;
-
-			const int notificationId = 0;
-			notificationManager.Notify (notificationId, notification);
-
-		}
 
 	}
 

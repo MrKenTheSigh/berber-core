@@ -231,7 +231,7 @@ namespace BerBerCore
 				case "notification":
 					var title = restoredObject ["data"] ["title"].ToString();
 					var content = restoredObject ["data"] ["content"].ToString ();
-					updateNotification (title, content, "this is extra");
+					NotificationToolbox.updateNotification (mainActivity, title, content, "this is extra");
 					break;
 
 				case "vibrate":
@@ -263,35 +263,35 @@ namespace BerBerCore
 		//}
 
 
-		public void updateNotification (string title, string content, string extra) {
-			//NOTE ref https://developer.xamarin.com/guides/cross-platform/application_fundamentals/notifications/android/local_notifications_in_android/
+		//public void updateNotification (string title, string content, string extra) {
+		//	//NOTE ref https://developer.xamarin.com/guides/cross-platform/application_fundamentals/notifications/android/local_notifications_in_android/
 
-			Intent intent = new Intent (mainActivity, typeof (MainActivity));
-			intent.PutExtra ("msg_from_noti", extra);
+		//	Intent intent = new Intent (mainActivity, typeof (MainActivity));
+		//	intent.PutExtra ("msg_from_noti", extra);
 
-			TaskStackBuilder stackBuilder = TaskStackBuilder.Create (mainActivity);
-			stackBuilder.AddParentStack (Java.Lang.Class.FromType (typeof (MainActivity)));
-			stackBuilder.AddNextIntent (intent);
+		//	TaskStackBuilder stackBuilder = TaskStackBuilder.Create (mainActivity);
+		//	stackBuilder.AddParentStack (Java.Lang.Class.FromType (typeof (MainActivity)));
+		//	stackBuilder.AddNextIntent (intent);
 
-			const int pendingIntentId = 0;
-			PendingIntent pendingIntent =
-				stackBuilder.GetPendingIntent (pendingIntentId, PendingIntentFlags.OneShot);
+		//	const int pendingIntentId = 0;
+		//	PendingIntent pendingIntent =
+		//		stackBuilder.GetPendingIntent (pendingIntentId, PendingIntentFlags.OneShot);
 
-			Notification.Builder builder = new Notification.Builder (mainActivity)
-				.SetContentIntent (pendingIntent)
-				.SetContentTitle (title)
-				.SetContentText (content)
-				.SetSmallIcon (Resource.Drawable.Icon);
+		//	Notification.Builder builder = new Notification.Builder (mainActivity)
+		//		.SetContentIntent (pendingIntent)
+		//		.SetContentTitle (title)
+		//		.SetContentText (content)
+		//		.SetSmallIcon (Resource.Drawable.Icon);
 			
-			Notification notification = builder.Build ();
+		//	Notification notification = builder.Build ();
 
-			NotificationManager notificationManager =
-				mainActivity.GetSystemService (Context.NotificationService) as NotificationManager;
+		//	NotificationManager notificationManager =
+		//		mainActivity.GetSystemService (Context.NotificationService) as NotificationManager;
 
-			const int notificationId = 0;
-			notificationManager.Notify (notificationId, notification);
+		//	const int notificationId = 0;
+		//	notificationManager.Notify (notificationId, notification);
 
-		}
+		//}
 
 	}
 

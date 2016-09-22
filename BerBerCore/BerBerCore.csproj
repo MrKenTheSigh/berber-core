@@ -55,9 +55,6 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="GCM.Client">
-      <HintPath>..\Components\GCMClient-1.0\lib\android\GCM.Client.dll</HintPath>
-    </Reference>
     <Reference Include="WebSocket4Net">
       <HintPath>..\Components\websocket4net-0.13\lib\android\WebSocket4Net.dll</HintPath>
     </Reference>
@@ -75,6 +72,7 @@
     <Compile Include="Utils\O08WebView.cs" />
     <Compile Include="BootUpReceiver.cs" />
     <Compile Include="NotificationService.cs" />
+    <Compile Include="Utils\NotificationToolbox.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -91,25 +89,27 @@
     <AndroidResource Include="Resources\mipmap-xxhdpi\Icon.png" />
     <AndroidResource Include="Resources\mipmap-xxxhdpi\Icon.png" />
     <AndroidResource Include="Resources\values\styles.xml" />
-    <AndroidResource Include="Resources\drawable\splash_background.xml" />
-    <AndroidResource Include="Resources\drawable\splash.png" />
+    <AndroidResource Include="Resources\drawable\_splash.png" />
+    <AndroidResource Include="Resources\drawable\_Icon.png" />
+    <AndroidResource Include="Resources\raw\coins_drop.mp3" />
+    <AndroidResource Include="Resources\raw\SMW_Coin.mp3" />
     <AndroidResource Include="Resources\drawable\Icon.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\drawable\" />
+    <Folder Include="Resources\raw\" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\style.css" />
-    <AndroidAsset Include="Assets\Web\error_page.html" />
+    <AndroidAsset Include="Assets\Web\error.html" />
     <AndroidAsset Include="Assets\Web\index.html" />
+    <AndroidAsset Include="Assets\Web\splash.html" />
+    <AndroidAsset Include="Assets\Web\img\splash.png" />
+    <AndroidAsset Include="Assets\Web\js\BerBerUI.js" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="json.net">
       <Version>7.0.1</Version>
-      <Visible>False</Visible>
-    </XamarinComponentReference>
-    <XamarinComponentReference Include="GCMClient">
-      <Version>1.0</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>
     <XamarinComponentReference Include="websocket4net">

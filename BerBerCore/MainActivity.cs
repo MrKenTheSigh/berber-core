@@ -48,11 +48,13 @@ namespace BerBerCore
 
 			#endregion
 
+			GF.devLog ("========= " + Application.Context.PackageName);//
+
 			//
 			vibrator = (Vibrator)GetSystemService (VibratorService);
 
 			//
-			RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams (ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent);
+			var lp = new RelativeLayout.LayoutParams (ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent);
 			panel = new RelativeLayout (this);
 			SetContentView (panel, lp);
 
@@ -160,6 +162,11 @@ namespace BerBerCore
 		{
 			//pattern: <wait>, <do>, <wait>, <do>, ...
 			vibrator.Vibrate (pattern, -1);//-1 means no repeat
+
+			//重複版
+			//vibrator.Vibrate (pattern, 0);
+			//vibrator.Cancel ();
+
 		}
 
 

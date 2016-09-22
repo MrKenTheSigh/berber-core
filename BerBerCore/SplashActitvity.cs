@@ -8,6 +8,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Android.Webkit;
 
 using System.Threading;
 
@@ -15,10 +16,8 @@ using System.Threading;
 namespace BerBerCore
 {
 	[Activity(
-		Theme = "@style/Theme.Splash", 
-		//MainLauncher = true, 
+		Theme = "@android:style/Theme.NoTitleBar.Fullscreen",
 		NoHistory = true,
-		//ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait
 		ConfigurationChanges=Android.Content.PM.ConfigChanges.Orientation | Android.Content.PM.ConfigChanges.ScreenSize
 	)]		
 	public class SplashActitvity : Activity
@@ -27,17 +26,19 @@ namespace BerBerCore
 		{
 			base.OnCreate (bundle);
 
-			//目前沒有landscape的圖示, 暫不做此調整
-			/*
-			KUserDefault.Rotate = Ini.Rotate;
-			if(KUserDefault.Rotate == 90){
-				//portrait
-				RequestedOrientation = Android.Content.PM.ScreenOrientation.Portrait;
-			}else{
-				//landscape
-				RequestedOrientation = Android.Content.PM.ScreenOrientation.Landscape;
-			}
-			*/
+			var lp = new RelativeLayout.LayoutParams (ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent);
+			var panel = new RelativeLayout (this);
+			SetContentView (panel, lp);
+
+			var webview = new WebView (this);
+			webview.SetWebViewClient (new WebViewClient ());
+			//webview.SetWebChromeClient (new O08WebChromeClient (webview));//for debug
+			webview.Settings.JavaScriptEnabled = true;
+
+			lp = new RelativeLayout.LayoutParams (ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent);
+			panel.AddView (webview, lp);
+
+			webview.LoadUrl (Ini.URL_SPLASH);
 
 		}
 

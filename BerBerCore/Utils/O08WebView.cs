@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Threading;
+using System.Linq;
+using System.Collections.Generic;
 using Android.App;
 using Android.Content;
 using Android.Views;
@@ -61,7 +63,7 @@ namespace BerBerCore
 
 	}
 
-	public class KWebViewClient : WebViewClient
+	public class O08WebViewClient : WebViewClient
 	{
 		private MainActivity mainActivity;
 		private WebView webview;
@@ -72,7 +74,7 @@ namespace BerBerCore
 		private const int CD = (int)(Ini.WebViewTimeoutMS / 500);
 		private int cd_500ms = CD;
 
-		public KWebViewClient (MainActivity mainActivity)
+		public O08WebViewClient (MainActivity mainActivity)
 		{
 			this.mainActivity = mainActivity;
 		}
@@ -229,12 +231,14 @@ namespace BerBerCore
 				case "notification":
 					var title = restoredObject ["data"] ["title"].ToString();
 					var content = restoredObject ["data"] ["content"].ToString ();
-
 					updateNotification (title, content, "this is extra");
-
-
 					break;
 
+				case "vibrate":
+					var jArr = restoredObject ["data"] as JArray;
+					long [] pattern = jArr.Select (jv => jv.Value<long> ()).ToArray ();
+					mainActivity.doVibrate (pattern);
+					break;
 
 			}
 
@@ -291,11 +295,11 @@ namespace BerBerCore
 
 	}
 
-	class KWebChromeClient : WebChromeClient
+	class O08WebChromeClient : WebChromeClient
 	{
 		private WebView webView;
 
-		public KWebChromeClient (WebView webView)
+		public O08WebChromeClient (WebView webView)
 		{
 			this.webView = webView;
 		}

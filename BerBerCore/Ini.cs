@@ -57,14 +57,6 @@ namespace BerBerCore
 		{
 		}
 
-		public static bool checkNotiId(int notiId){
-			for (int i = 0; i < NotiIdList.Length; i++) {
-				if (NotiIdList [i] == notiId) {
-					return true;
-				}
-			}
-			return false;
-		}
 
 	}
 

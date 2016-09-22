@@ -9,7 +9,6 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using Android.Support.V4.App;
 using Android.Media;
 using Android.Webkit;
 
@@ -116,85 +115,52 @@ namespace BerBerCore
 			//		GF.devLog ("[data.name] " + restoredObject ["data"] ["name"]);
 			//		GF.devLog ("[data.phone] " + restoredObject ["data"] ["phone"]);
 			//		break;
-					
+
 
 			//}
 
+
+			//TODO 取得資料後用發通知
+			//  是否把 extra 用於 json ?!
+			//updateNotification (title, content, extra);
 
 
 
 		}
 		#endregion
 
-		private void updateNotification (int num, string msg, int notificationID)
+		public void updateNotification (string title, string content, string extra)
 		{
-			if (KUserDefault.MsgID == 0) {
-				return;
-			}
+			//NOTE ref https://developer.xamarin.com/guides/cross-platform/application_fundamentals/notifications/android/local_notifications_in_android/
 
-			// These are the values that we want to pass to the next activity
-			Bundle valuesForActivity = new Bundle ();
-			valuesForActivity.PutInt (GF.CALL_FROM_NOTI_TYPE, notificationID);
+			Intent intent = new Intent (this, typeof (MainActivity));
+			intent.PutExtra ("msg_from_noti", extra);
 
-			// Create the PendingIntent with the back stack
-			// When the user clicks the notification, SecondActivity will start up.
-			Intent resultIntent = new Intent (this, typeof (MainActivity));
-			resultIntent.PutExtras (valuesForActivity); // Pass some values to SecondActivity.
-
-			Android.Support.V4.App.TaskStackBuilder stackBuilder = Android.Support.V4.App.TaskStackBuilder.Create (this);
+			TaskStackBuilder stackBuilder = TaskStackBuilder.Create (this);
 			stackBuilder.AddParentStack (Java.Lang.Class.FromType (typeof (MainActivity)));
-			stackBuilder.AddNextIntent (resultIntent);
+			stackBuilder.AddNextIntent (intent);
 
-			PendingIntent resultPendingIntent = stackBuilder.GetPendingIntent (0, (int)PendingIntentFlags.UpdateCurrent);
+			const int pendingIntentId = 0;
+			PendingIntent pendingIntent =
+				stackBuilder.GetPendingIntent (pendingIntentId, PendingIntentFlags.OneShot);
 
-			//Android.Net.Uri alarmSound = RingtoneManager.GetDefaultUri(RingtoneType.Notification);
-			Android.Net.Uri alarmSound; //= Android.Net.Uri.Parse ("android.resource://" + PackageName + "/" + Resource.Raw.noti_sound_coin);
-			string msgText;
-			/*
-			switch (notificationID) {
-				case Ini.NotiIdList[0]:
-					alarmSound = Android.Net.Uri.Parse ("android.resource://" + PackageName + "/" + Resource.Raw.noti_sound_coin);
-					msgText = GetString (Resource.String.new_message_public);
-					break;
-				case Ini.NotiIdList[1]:
-					alarmSound = Android.Net.Uri.Parse ("android.resource://" + PackageName + "/" + Resource.Raw.coins_drop_1);
-					msgText = GetString (Resource.String.new_message_product);
-					break;
-				case Ini.NotiIdList[2]:
-				default:
-					alarmSound = Android.Net.Uri.Parse ("android.resource://" + PackageName + "/" + Resource.Raw.noti_sound_coin);
-					msgText = GetString (Resource.String.new_message);
-					break;
-			}
-			*/
+			Notification.Builder builder = new Notification.Builder (this)
+				.SetContentIntent (pendingIntent)
+				.SetContentTitle (title)
+				.SetContentText (content)
+				//.SetAutoCancel (true) // dismiss the notification from the notification area when the user clicks on it
+				//.SetSound (alarmSound, 5) // 更多聲音控制去參考 diantou
+				.SetSmallIcon (Resource.Drawable.Icon);
 
-			if (Ini.checkNotiId (notificationID)) {
-				alarmSound = Ini.DefaultNotiAudio;//Ini.NotiAudioList [notificationID];
-				msgText = Ini.NotiTitleList [notificationID];
-			} else {
-				alarmSound = Ini.DefaultNotiAudio;
-				msgText = Ini.DefaultNotiTitle;
-			}
+			Notification notification = builder.Build ();
 
-			GF.devLog ("[GcmService] notificationID: " + notificationID + "  msgText: " + msgText);
+			NotificationManager notificationManager =
+				GetSystemService (Context.NotificationService) as NotificationManager;
 
-			// Build the notification
-			NotificationCompat.Builder builder = new NotificationCompat.Builder (this)
-				.SetAutoCancel (true) // dismiss the notification from the notification area when the user clicks on it
-				.SetContentIntent (resultPendingIntent) // start up this activity when the user clicks the intent.
-				.SetContentTitle (num.ToString () + msgText) // Set the title
-				.SetSmallIcon (Resource.Drawable.Icon) // This is the icon to display
-				.SetSound (alarmSound, 5)
-				.SetContentText (msg.Replace ("</br>", " ")); // the message to display.
-															  //.SetContentInfo ("info")
-															  //.SetNumber(num) // Display the count in the Content Info
-
-			// Finally publish the notification
-			NotificationManager notificationManager = (NotificationManager)GetSystemService (NotificationService);
-			notificationManager.Notify (notificationID, builder.Build ());
+			const int notificationId = 0;
+			notificationManager.Notify (notificationId, notification);
 
 		}
-
 
 	}
 
